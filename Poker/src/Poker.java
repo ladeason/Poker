@@ -31,6 +31,11 @@ public class Poker {
             isValid = false;
             isFolded = false;
 
+            if (money < 20) {
+                System.out.println("Not enough money to play\n");
+                break;
+            }
+
             while (!isValid) {
                 System.out.println("Place a bet (min: $20.00): ");
                 input = sc.nextInt();
@@ -50,8 +55,6 @@ public class Poker {
 
             money -= bet;
             pot += bet;
-            System.out.println("Money: $" + money + ".00");
-            System.out.println("Pot: $" + pot + ".00\n");
 
             System.out.println("Dealing cards: \n");
 
@@ -70,11 +73,15 @@ public class Poker {
 
             isValid = false;
 
+            System.out.println("Money: $" + money + ".00");
+            System.out.println("Pot: $" + pot + ".00\n");
+
             while (!isValid) {
-                System.out.println("Call, Raise, or Fold?: ");
+                System.out.println("Call, raise, all-in, or fold?: ");
                 System.out.println("  1 - call");
                 System.out.println("  2 - raise");
-                System.out.println("  3 - fold");
+                System.out.println("  3 - all-in");
+                System.out.println("  4 - fold");
                 input = sc.nextInt();
 
                 if (input == 1) {
@@ -84,30 +91,44 @@ public class Poker {
                     isValid = true;
                 }
                 else if (input == 2) {
-
-                    while (!isValid) {
-                        System.out.println("Raise by amount (min: $20.00): ");
-                        input = sc.nextInt();
-
-                        if (input < 20) {
-                            System.out.println("Bet is too small, try again\n");
-                        }
-                        else if (input > money) {
-                            System.out.println("Not enough money, try again\n");
-                        }
-                        else {
-                            bet = input;
-                            System.out.println("Raised by: $" + bet + ".00\n");
-                            isValid = true;
-                        }
+                    if (money < 20) {
+                        System.out.println("Not enough money to raise\n");
+                        isValid = true;
                     }
+                    else {
+                        while (!isValid) {
+                            System.out.println("Raise by amount (min: $20.00): ");
+                            input = sc.nextInt();
 
-                    money -= bet;
-                    pot += bet;
-                    System.out.println("Money: $" + money + ".00");
-                    System.out.println("Pot: $" + pot + ".00\n");
+                            if (input < 20) {
+                                System.out.println("Bet is too small, try again\n");
+                            }
+                            else if (input > money) {
+                                System.out.println("Not enough money, try again\n");
+                            }
+                            else {
+                                bet = input;
+                                System.out.println("Raised by: $" + bet + ".00\n");
+                                isValid = true;
+                            }
+                        }
+
+                        money -= bet;
+                        pot += bet;
+                    }
                 }
                 else if (input == 3) {
+                    if (money == 0) {
+                        System.out.println("Out of money\n");
+                    }
+                    else {
+                        System.out.println("All-in: $" + money + ".00\n");
+                        pot += money;
+                        money = 0;
+                    }
+                    isValid = true;
+                }
+                else if (input == 4) {
                     System.out.println("Folded\n");
                     System.out.println("Money: $" + money + ".00\n");
                     isValid = true;
@@ -136,46 +157,62 @@ public class Poker {
                 System.out.println("  Dealer 1: <hidden>");
                 System.out.println("  Dealer 2: <hidden>\n");
 
+                System.out.println("Money: $" + money + ".00");
+                System.out.println("Pot: $" + pot + ".00\n");
+
                 isValid = false;
 
                 while (!isValid) {
-                    System.out.println("Call, Raise, or Fold?: ");
+                    System.out.println("Call, raise, all-in, or fold?: ");
                     System.out.println("  1 - call");
                     System.out.println("  2 - raise");
-                    System.out.println("  3 - fold");
+                    System.out.println("  3 - all-in");
+                    System.out.println("  4 - fold");
                     input = sc.nextInt();
 
                     if (input == 1) {
                         System.out.println("Called\n");
-                        System.out.println("Money: $" + money + ".00");
-                        System.out.println("Pot: $" + pot + ".00\n");
                         isValid = true;
                     }
                     else if (input == 2) {
-
-                        while (!isValid) {
-                            System.out.println("Raise by amount (min: $20.00): ");
-                            input = sc.nextInt();
-
-                            if (input < 20) {
-                                System.out.println("Bet is too small, try again\n");
-                            }
-                            else if (input > money) {
-                                System.out.println("Not enough money, try again\n");
-                            }
-                            else {
-                                bet = input;
-                                System.out.println("Raised by: $" + bet + ".00\n");
-                                isValid = true;
-                            }
+                        if (money < 20) {
+                            System.out.println("Not enough money to raise\n");
+                            isValid = true;
                         }
+                        else {
+                            while (!isValid) {
+                                System.out.println("Raise by amount (min: $20.00): ");
+                                input = sc.nextInt();
 
-                        money -= bet;
-                        pot += bet;
-                        System.out.println("Money: $" + money + ".00");
-                        System.out.println("Pot: $" + pot + ".00\n");
+                                if (input < 20) {
+                                    System.out.println("Bet is too small, try again\n");
+                                }
+                                else if (input > money) {
+                                    System.out.println("Not enough money, try again\n");
+                                }
+                                else {
+                                    bet = input;
+                                    System.out.println("Raised by: $" + bet + ".00\n");
+                                    isValid = true;
+                                }
+                            }
+
+                            money -= bet;
+                            pot += bet;
+                        }
                     }
                     else if (input == 3) {
+                        if (money == 0) {
+                            System.out.println("Out of money\n");
+                        }
+                        else {
+                            System.out.println("All-in: $" + money + ".00\n");
+                            pot += money;
+                            money = 0;
+                        }
+                        isValid = true;
+                    }
+                    else if (input == 4) {
                         System.out.println("Folded\n");
                         System.out.println("Money: $" + money + ".00\n");
                         isValid = true;
@@ -207,44 +244,60 @@ public class Poker {
 
                     isValid = false;
 
+                    System.out.println("Money: $" + money + ".00");
+                    System.out.println("Pot: $" + pot + ".00\n");
+
                     while (!isValid) {
-                        System.out.println("Call, Raise, or Fold?: ");
+                        System.out.println("Call, raise, all-in, or fold?: ");
                         System.out.println("  1 - call");
                         System.out.println("  2 - raise");
-                        System.out.println("  3 - fold");
+                        System.out.println("  3 - all-in");
+                        System.out.println("  4 - fold");
                         input = sc.nextInt();
 
                         if (input == 1) {
                             System.out.println("Called\n");
-                            System.out.println("Money: $" + money + ".00");
-                            System.out.println("Pot: $" + pot + ".00\n");
                             isValid = true;
                         }
                         else if (input == 2) {
-
-                            while (!isValid) {
-                                System.out.println("Raise by amount (min: $20.00): ");
-                                input = sc.nextInt();
-
-                                if (input < 20) {
-                                    System.out.println("Bet is too small, try again\n");
-                                }
-                                else if (input > money) {
-                                    System.out.println("Not enough money, try again\n");
-                                }
-                                else {
-                                    bet = input;
-                                    System.out.println("Raised by: $" + bet + ".00\n");
-                                    isValid = true;
-                                }
+                            if (money < 20) {
+                                System.out.println("Not enough money to raise\n");
+                                isValid = true;
                             }
+                            else {
+                                while (!isValid) {
+                                    System.out.println("Raise by amount (min: $20.00): ");
+                                    input = sc.nextInt();
 
-                            money -= bet;
-                            pot += bet;
-                            System.out.println("Money: $" + money + ".00");
-                            System.out.println("Pot: $" + pot + ".00\n");
+                                    if (input < 20) {
+                                        System.out.println("Bet is too small, try again\n");
+                                    }
+                                    else if (input > money) {
+                                        System.out.println("Not enough money, try again\n");
+                                    }
+                                    else {
+                                        bet = input;
+                                        System.out.println("Raised by: $" + bet + ".00\n");
+                                        isValid = true;
+                                    }
+                                }
+
+                                money -= bet;
+                                pot += bet;
+                            }
                         }
                         else if (input == 3) {
+                            if (money == 0) {
+                                System.out.println("Out of money\n");
+                            }
+                            else {
+                                System.out.println("All-in: $" + money + ".00\n");
+                                pot += money;
+                                money = 0;
+                            }
+                            isValid = true;
+                        }
+                        else if (input == 4) {
                             System.out.println("Folded\n");
                             System.out.println("Money: $" + money + ".00\n");
                             isValid = true;
@@ -275,46 +328,62 @@ public class Poker {
                         System.out.println("  Dealer 1: <hidden>");
                         System.out.println("  Dealer 2: <hidden>\n");
 
+                        System.out.println("Money: $" + money + ".00");
+                        System.out.println("Pot: $" + pot + ".00\n");
+
                         isValid = false;
 
                         while (!isValid) {
-                            System.out.println("Call, Raise, or Fold?: ");
+                            System.out.println("Call, raise, all-in, or fold?: ");
                             System.out.println("  1 - call");
                             System.out.println("  2 - raise");
-                            System.out.println("  3 - fold");
+                            System.out.println("  3 - all-in");
+                            System.out.println("  4 - fold");
                             input = sc.nextInt();
 
                             if (input == 1) {
                                 System.out.println("Called\n");
-                                System.out.println("Money: $" + money + ".00");
-                                System.out.println("Pot: $" + pot + ".00\n");
                                 isValid = true;
                             }
                             else if (input == 2) {
-
-                                while (!isValid) {
-                                    System.out.println("Raise by amount (min: $20.00): ");
-                                    input = sc.nextInt();
-
-                                    if (input < 20) {
-                                        System.out.println("Bet is too small, try again\n");
-                                    }
-                                    else if (input > money) {
-                                        System.out.println("Not enough money, try again\n");
-                                    }
-                                    else {
-                                        bet = input;
-                                        System.out.println("Raised by: $" + bet + ".00\n");
-                                        isValid = true;
-                                    }
+                                if (money < 20) {
+                                    System.out.println("Not enough money to raise\n");
+                                    isValid = true;
                                 }
+                                else {
+                                    while (!isValid) {
+                                        System.out.println("Raise by amount (min: $20.00): ");
+                                        input = sc.nextInt();
 
-                                money -= bet;
-                                pot += bet;
-                                System.out.println("Money: $" + money + ".00");
-                                System.out.println("Pot: $" + pot + ".00\n");
+                                        if (input < 20) {
+                                            System.out.println("Bet is too small, try again\n");
+                                        }
+                                        else if (input > money) {
+                                            System.out.println("Not enough money, try again\n");
+                                        }
+                                        else {
+                                            bet = input;
+                                            System.out.println("Raised by: $" + bet + ".00\n");
+                                            isValid = true;
+                                        }
+                                    }
+
+                                    money -= bet;
+                                    pot += bet;
+                                }
                             }
                             else if (input == 3) {
+                                if (money == 0) {
+                                    System.out.println("Out of money\n");
+                                }
+                                else {
+                                    System.out.println("All-in: $" + money + ".00\n");
+                                    pot += money;
+                                    money = 0;
+                                }
+                                isValid = true;
+                            }
+                            else if (input == 4) {
                                 System.out.println("Folded\n");
                                 System.out.println("Money: $" + money + ".00\n");
                                 isValid = true;
